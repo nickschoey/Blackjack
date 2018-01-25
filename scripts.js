@@ -1,12 +1,14 @@
 var newCard;
+var muckedCard;
 var deck = new Array();
 var suit = ["diamonds", "spades", "hearts", "clubs"];
 var value = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
-var playerCount = 0;
+var heroCount = 0;
 var bankCount = 0;
 var bankRoll = 5000;
 var count = 0;
 var bet = 0;
+
 // Creates the deck for the game and sets a value for each card
 function createDeck(numberOfDecks) {
 	for (var x = 0; x < numberOfDecks; x++) {
@@ -39,39 +41,54 @@ function shuffle(gameDeckLength) {
 
 //Returns the last card in the game Deck and removes it from the deck
 function getCard(){
-	newCard = deck.pop()
+	newCard = deck.pop();
 	return newCard;
 }
 
-function addPlayerCard(){
-	$("#hero").append("<div class='card'><div class='value'>"
-						+newCard.Value+
-						"</div><div class='suit'><img src="+
-						newCard.Suit+
-						".png></div></div>");
+function getMuckedCard(){
+	muckedCard = deck.pop();
+	newCard = muckedCard;
+	console.log(muckedCard);
 }
 
-function addBankCard(){
-	$("#bank").append("<div class='card'><div class='value'>"
-						+newCard.Value+
-						"</div><div class='suit'><img src="+
-						newCard.Suit+
-						".png></div></div>");
-}
-
-function updatePlayerCount(){
-	if ($.isArray(newCard.CardValue)) {
-		//IF CARDVALUE(10)+COUNT > 21 -> CARDVALUE(1)
-		//ELSE CARDVALUE(10); 
+function addCard(idPlayer){
+	var code = "#"+idPlayer;
+	if (newCard.Suit == "diamonds" || newCard.Suit == "hearts") {
+		$(code).append("<div class='card red'><div class='value'>"
+							+newCard.Value+
+							"</div><div class='suit'><img src="+
+							newCard.Suit+
+							".png></div></div>");	
 	} else {
-		playerCount += newCard.CardValue;
-		if (playerCount == 21) {
-			$("#count").html(playerCount);
-			alert("BlackJack!");
-		} else if (playerCount > 21) {
-			alert("You lose!");
+		$(code).append("<div class='card'><div class='value'>"
+							+newCard.Value+
+							"</div><div class='suit'><img src="+
+							newCard.Suit+
+							".png></div></div>");
+	}
+}
+
+function addMuckedCard(){
+	$("#bank").append("<div class=' mucked card'></div>");
+
+}
+
+function updateCount(idPlayer){
+	if (idPlayer == "hero") {
+		if ($.isArray(newCard.CardValue)) {
+			//IF CARDVALUE(11)+COUNT > 21 -> CARDVALUE(1)
+			//ELSE CARDVALUE(10); 
 		} else {
-			$("#count").html(playerCount);
+			heroCount += newCard.CardValue;
+			$("#count").html(heroCount);	
+		}
+	} else if (idPlayer == "bank") {
+		if ($.isArray(newCard.CardValue)) {
+			//IF CARDVALUE(11)+COUNT > 21 -> CARDVALUE(1)
+			//ELSE CARDVALUE(10); 
+		} else {
+			bankCount += newCard.CardValue;
+			$("#bankCount").html(bankCount);	
 		}
 	}
 }
@@ -92,16 +109,31 @@ function updateBet(betAmount){
 	}
 }
 
-function dealPlayerCard(){
+function dealCard(idPlayer){
 	getCard();
-	updatePlayerCount();
-	addPlayerCard();
+	updateCount(idPlayer);
+	addCard(idPlayer);
 }
 
-function dealBankCard(){
-	getCard();
-	updateBankCount();
-	addBankCard();
-
+function dealMuckedCard(idPlayer){
+	getMuckedCard();
+	updateCount(idPlayer);
+	addMuckedCard();
 }
-
+function uncoverCard(){
+	//find the mucked card and uncovers it
+	if (muckedCard.Suit == "diamonds" || muckedCard.Suit == "hearts") {
+		$("#bank").find(".mucked").html("<div class='card red'><div class='value'>"
+							+muckedCard.Value+
+							"</div><div class='suit'><img src="+
+							muckedCard.Suit+
+							".png></div></div>");	
+	} else {
+		$("#bank").find(".mucked").html("<div class='card'><div class='value'>"
+							+muckedCard.Value+
+							"</div><div class='suit'><img src="+
+							muckedCard.Suit+
+							".png></div></div>");
+	}
+	$("#bank").find(".mucked").removeClass("mucked");
+}

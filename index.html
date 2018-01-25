@@ -4,8 +4,12 @@
 	<title></title>
 </head>
 <style type="text/css" media="screen">
+	.red {
+		color: red;
+	}
 	.mucked {
-		fill: black;
+		background-image: url("back.jpg");
+		background-size: cover;
 	}
 	#table {
 		margin-left: 200px;
@@ -79,14 +83,14 @@
 	$("#betSubmit").click(function() {
 		updateBet($("#betAmount").val());
 		$(".betForm").hide();
-		dealPlayerCard();
-		dealPlayerCard();
-		dealBankCard();
-		dealBankCard();
+		dealCard("hero");
+		dealCard("hero");
+		dealCard("bank");
+		dealMuckedCard("bank");
 
 	})
 	$("#getCard").click(function(){
-		dealPlayerCard();
+		dealCard("hero");
 	})
 
 
