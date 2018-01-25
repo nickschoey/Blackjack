@@ -123,17 +123,18 @@ function dealMuckedCard(idPlayer){
 function uncoverCard(){
 	//find the mucked card and uncovers it
 	if (muckedCard.Suit == "diamonds" || muckedCard.Suit == "hearts") {
-		$("#bank").find(".mucked").html("<div class='card red'><div class='value'>"
+		$("#bank").find(".mucked").addClass("red");
+		$("#bank").find(".mucked").html("<div class='value'>"
 							+muckedCard.Value+
 							"</div><div class='suit'><img src="+
 							muckedCard.Suit+
-							".png></div></div>");	
+							".png></div>");	
 	} else {
-		$("#bank").find(".mucked").html("<div class='card'><div class='value'>"
+		$("#bank").find(".mucked").html("<div class='value'>"
 							+muckedCard.Value+
 							"</div><div class='suit'><img src="+
 							muckedCard.Suit+
-							".png></div></div>");
+							".png></div>");
 	}
 	$("#bank").find(".mucked").removeClass("mucked");
 }
