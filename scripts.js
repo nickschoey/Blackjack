@@ -8,14 +8,20 @@ var bankCount = 0;
 var bankRoll = 5000;
 var count = 0;
 var bet = 0;
+var heroStats = {BankRoll: 5000, Hand: [], Bet: 0, Count: 0};
 
+function endGame(){
+	heroCount = 0;
+	bankCount = 0;
+	bet = 0;
+}
 // Creates the deck for the game and sets a value for each card
 function createDeck(numberOfDecks) {
 	for (var x = 0; x < numberOfDecks; x++) {
 		for (var i = 0; i < suit.length; i++) {
 			for (var j = 0; j < value.length; j++) {
 				if (value[j] == "A") {
-					var cardValue = [1, 10];
+					var cardValue = [1, 11];
 				} else if (value[j] == "J"|| value[j] == "Q" || value[j] == "K") {
 					var cardValue = 10;
 				} else {
@@ -42,7 +48,6 @@ function shuffle(gameDeckLength) {
 //Returns the last card in the game Deck and removes it from the deck
 function getCard(){
 	newCard = deck.pop();
-	return newCard;
 }
 
 function getMuckedCard(){
@@ -76,8 +81,13 @@ function addMuckedCard(){
 function updateCount(idPlayer){
 	if (idPlayer == "hero") {
 		if ($.isArray(newCard.CardValue)) {
-			//IF CARDVALUE(11)+COUNT > 21 -> CARDVALUE(1)
-			//ELSE CARDVALUE(10); 
+			if (newCard.CardValue[1] + heroCount > 21) { 
+				heroCount += 1;
+				$("#count").html(heroCount)
+			} else {
+				heroCount += 11;
+				$("#count").html(heroCount)
+			} 
 		} else {
 			heroCount += newCard.CardValue;
 			$("#count").html(heroCount);	
@@ -137,4 +147,26 @@ function uncoverCard(){
 							".png></div>");
 	}
 	$("#bank").find(".mucked").removeClass("mucked");
+}
+
+function checkBlackJack(){
+	if (heroCount == 21) {
+		alert("Blackjack!");
+		//IF bankcount is not 21
+			bankRoll += bet*1.5;
+			//
+			//
+		//ELSE
+			//Return the money
+
+		//function to restart the game
+			// update Bankroll
+			// Counters set to 0
+			// Bet set to 0
+			// Table Cleared
+			// Show the betting menu
+			// 
+	} else {
+		$(".option").removeAttr('disabled');
+	}
 }
