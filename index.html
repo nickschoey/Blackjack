@@ -126,12 +126,14 @@
 	// CARD, DOUBLE, INSURANCE?
 	$("#getCard").click(function(){
 		dealCard("hero");
+		checkCount();
 		//if busted pay
 		//if <21 ask
 		//if == 21 stand and let computer play
 	})
 
 	$("#stand").click(function(){
+		dealerPlay();
 		//function to end the hand of the dealer
 		// Showdown
 		// if >17 Stand
