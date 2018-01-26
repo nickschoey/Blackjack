@@ -12,13 +12,16 @@
 	<div id="HUD">
 		<p id="bankroll">Bankroll: 5000</p>
 		<p id="Bet">Bet: 0</p>
-		<p id="bankCount">Count: </p>
+		<p id="bankCount">Bank Count: </p>
 	</div>
 	<div id="bank"></div>
-	<div id="hero"></div>
+	<div id="hero">
+		
+	<p id="count"></p>
+	</div>
 </div><br>
 
-<p id="count"></p>
+
 <div id="buttonsPreGame">
 	<input type="number" class="betForm" id="betAmount" step="20" min="20" max="500" value="20">
 	<button type="button" class="betForm" id="betSubmit">Place Bet</button>
@@ -65,6 +68,7 @@
 		setTimeout(function(){
 		dealMuckedCard("bank");
 		}, 1000);
+
 		//THE GAME CAN END HERE
 		setTimeout(function(){
 		checkBlackJack();

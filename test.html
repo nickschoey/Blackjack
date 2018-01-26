@@ -19,6 +19,9 @@
 </div><br>
 
 <p id="count"></p>
+<p id="count2"></p>
+<p id="count3"></p>
+<p id="count4"></p>
 
 	<button type="button" id="getCard" class="option">Get Card</button>
 
@@ -36,14 +39,37 @@
 	shuffle(deck.length);
 	dealCard("hero");
 	dealCard("hero");
-	
+
 
 	$("#getCard").click(function(){
 		dealCard("hero");
 		//checkCount();
 	})
 
+	//player is dealt an ace
+		//if count <= 21
+		//count 1 when ace is 1
+		
+		//if count <= 21
+		//count 2 when aces is 11
+	//a new card is dealt
+		//
+
+
 
 </script>
 </body>
 </html>
+
+<!--function getTotal(hand) {
+   var total = 0;
+   var ace = false;
+   for (var i = 1; i <= hand.count; i++) {
+       total += Math.min(10, hand[i].card.value); 
+       if (hand[i].card.value == 1)
+          ace = true;
+   }
+   if (total + 10 <= 21 && ace)
+      total += 10;
+   return total;
+}-->

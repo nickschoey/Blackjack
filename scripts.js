@@ -3,19 +3,8 @@ var muckedCard;
 var deck = new Array();
 var suit = ["diamonds", "spades", "hearts", "clubs"];
 var value = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
-var heroCount = 0;
-var bankCount = 0;
-var bankRoll = 5000;
-var count = 0;
-var bet = 0;
 var heroStats = {HasAce: false, BankRoll: 5000, Hand: [], Bet: 0, Count: 0};
 var bankStats = {HasAce: false, Hand: [], Count: 0};
-
-// sleep time expects milliseconds
-function sleep (time) {
-  return new Promise((resolve) => setTimeout(resolve, time));
-}
-
 
 // Creates the deck for the game and sets a value for each card
 function createDeck(numberOfDecks) {
@@ -23,7 +12,7 @@ function createDeck(numberOfDecks) {
 		for (var i = 0; i < suit.length; i++) {
 			for (var j = 0; j < value.length; j++) {
 				if (value[j] == "A") {
-					var cardValue = [1, 11];
+					var cardValue = 1;
 				} else if (value[j] == "J"|| value[j] == "Q" || value[j] == "K") {
 					var cardValue = 10;
 				} else {
@@ -36,7 +25,7 @@ function createDeck(numberOfDecks) {
 	}
 	return deck;
 };
-// Shuffles two random Cards X Times.
+// Shuffles two random Cards 10000 Times.
 function shuffle(gameDeckLength) {
 	for (var i = 0; i < 10000; i++) {
 		var card1 = Math.floor(Math.random() * 10000 % gameDeckLength);
@@ -50,8 +39,9 @@ function shuffle(gameDeckLength) {
 //Returns the last card in the game Deck and removes it from the deck
 function getCard(){
 	newCard = deck.pop();
+	console.log(newCard);
 }
-//Obtains a muckedCard from the deck
+//Obtains a mucked card from the deck
 function getMuckedCard(){
 	muckedCard = deck.pop();
 	newCard = muckedCard;
@@ -75,19 +65,6 @@ function addCard(idPlayer){
 								newCard.Suit+
 								".png></div></div>");
 		}
-
-		if (idPlayer == "hero"){
-			heroStats.Hand.push(newCard.CardValue);
-			if (newCard.Value == "A"){
-				heroStats.HasAce = true;
-			}
-		} else {
-			bankStats.Hand.push(newCard.CardValue);
-			if (newCard.Value == "A"){
-				bankStats.HasAce = true;
-			}
-		}
-		
 }
 
 //Adds the bank's mucked card into play
@@ -97,31 +74,35 @@ function addMuckedCard(){
 
 function updateCount(idPlayer){
 	if (idPlayer == "hero") {
-		if ($.isArray(newCard.CardValue)) {
-			if (newCard.CardValue[1] + heroCount > 21) { 
-				heroCount += 1;
-				$("#count").html(heroCount)
-			} else {
-				heroCount += 11;
-				$("#count").html(heroCount)
-			} 
-		} else {
-			heroCount += newCard.CardValue;
-			$("#count").html(heroCount);	
+		heroStats.Count = 0;
+		heroStats.HasAce = false;
+		heroStats.Hand.push(newCard.CardValue);
+		for (var i = 0; i < heroStats.Hand.length; i++) {
+			heroStats.Count += heroStats.Hand[i];
+			if(heroStats.Hand[i] == 1) {
+				heroStats.HasAce = true;
+			}
 		}
+		if (heroStats.Count + 10 <= 21 && heroStats.HasAce) {
+			heroStats.Count += 10;
+		}
+
+	$("#count").html("Your Count: "+heroStats.Count);
+
 	} else if (idPlayer == "bank") {
-		if ($.isArray(newCard.CardValue)) {
-			if (newCard.CardValue[1] + bankCount > 21) { 
-				bankCount += 1;
-				$("#bankCount").html(bankCount)
-			} else {
-				bankCount += 11;
-				$("#bankCount").html(bankCount)
-			} 
-		} else {
-			bankCount += newCard.CardValue;
-			$("#bankCount").html(bankCount);	
+		bankStats.Count = 0;
+		bankStats.HasAce = false;
+		bankStats.Hand.push(newCard.CardValue);
+		for (var i = 0; i < bankStats.Hand.length; i++) {
+			bankStats.Count += bankStats.Hand[i];
+			if(bankStats.Hand[i] == 1) {
+				bankStats.HasAce = true;
+			}
 		}
+		if (bankStats.Count + 10 <= 21 && bankStats.HasAce) {
+			bankStats.Count += 10;
+		}
+		
 	}
 }
 
@@ -131,27 +112,27 @@ function updateBankCount(){
 }
 
 function updateBet(betAmount){
-	bet = betAmount;
-	if (bankRoll - bet < 0) {
+	heroStats.Bet = parseInt(betAmount);
+	if (heroStats.BankRoll - heroStats.Bet < 0) {
 		alert("Not enough money");
 	} else {
-		bankRoll = bankRoll - bet;
-		$("#bankroll").html("Bankroll: "+bankRoll);
-		$("#Bet").html("Bet: "+ bet);
+		heroStats.BankRoll = heroStats.BankRoll - heroStats.Bet;
+		$("#bankroll").html("Bankroll: "+heroStats.BankRoll);
+		$("#Bet").html("Bet: "+ heroStats.Bet);
 	}
 }
 
 function dealCard(idPlayer){
 	getCard();
-	updateCount(idPlayer);
 	addCard(idPlayer);
+	updateCount(idPlayer);
 	
 }
 
 function dealMuckedCard(idPlayer){
 	getMuckedCard();
-	updateCount(idPlayer);
 	addMuckedCard();
+	updateCount(idPlayer);
 }
 
 function uncoverCard(){
@@ -171,32 +152,35 @@ function uncoverCard(){
 							".png></div>");
 	}
 	$("#bank").find(".mucked").removeClass("mucked");
+	$("#bankCount").html("Bank Count: "+ bankStats.Count);
 }
 
 function restartGame(){
-	$("#bankroll").html("Bankroll: "+bankRoll);
+	$("#bankroll").html("Bankroll: "+heroStats.BankRoll);
 	$("#bank").empty();
 	$("#hero").empty();
-	heroCount = 0;
-	$("#count").html(heroCount)
-	bankCount = 0;
-	$("#bankCount").html(bankCount);
-	bet = 0;
-	$("#bet").html(bankCount);
+	$("#count").html("Count: 0")
+	$("#bankCount").html("Count: 0");
+	heroStats.Bet = 0;
+	bankStats.Hand = [];
+	heroStats.Hand = [];
+	$("#bet").html("Bet: 0");
 	$(".betForm").show();
 }
 
 function checkBlackJack(){
 	//HERO GETS A NATURAL BLACKJACK
-	if (heroCount == 21) {
+	if (heroStats.Count == 21) {
 		uncoverCard();
 		//THE BANK DOESN'T HAVE IT, GET PAID
-		if (bankCount != 21) {
-			bankRoll += bet*1.5;
+		if (bankStats.Count != 21) {
+			heroStats.BankRoll += heroStats.Bet*1.5;
+			alert("BlackJack!");
 			restartGame();
 		//THE BANK HAS IT, IT'S A TIE
-		} else if (bankCount == 21) {
-			bankRoll += bet;
+		} else if (bankStats.Count == 21) {
+			heroStats.BankRoll += heroStats.Bet;
+			alert("it's a tie!");
 			restartGame();
 		}
 		//THE GAME GOES ON
@@ -225,21 +209,22 @@ function dealerPlay(){
 	uncoverCard();
 		setTimeout(function(){
 			//DEALER HAS A BLACKJACK
-			if (bankCount == 21) {
+			if (bankStats.Count == 21) {
 				alert("you lose!");	
 			}
 			//DEALER HAS TO TAKE MORE CARDS
-			while (bankCount <= 16) {
+			while (bankStats.Count <= 16) {
 					dealCard("bank");
+					$("#bankCount").html("Bank Count: "+ bankStats.Count);
 			}
 			//AFTERGAME
 			setTimeout(function(){
-				if (bankCount > 21) {
+				if (bankStats.Count > 21) {
 					alert("bank loses");
 				} else {
-					if (bankCount > heroCount) {
+					if (bankStats.Count > heroStats.Count) {
 						alert("bank Wins");
-					} else if (bankCount == heroCount) {
+					} else if (bankStats.Count == heroStats.Count) {
 						alert("it's a tie!");
 					} else {
 						alert("player wins!");
@@ -250,7 +235,8 @@ function dealerPlay(){
 }
 
 function checkCount(){
-	if (heroCount > 21) {
+
+	if (heroStats.Count > 21) {
 		alert("busted!");
 		restartGame();
 	}

@@ -27,6 +27,7 @@
     	margin-top: 100px;
 	}
 	.card {
+		margin-right: -30px;
 		height: 105px;
 		width: 75px;
 		border: 1px solid black;
