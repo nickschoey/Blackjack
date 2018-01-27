@@ -1,4 +1,10 @@
-.red {
+	body {
+		background-color: black;
+	}
+	p {
+		color: white;
+	}
+	.red {
 		color: red;
 	}
 	.mucked {
@@ -7,27 +13,41 @@
     	background-repeat: no-repeat;
     	background-position: center 4px;
 	}
+	#HUD {
+		 position: absolute;
+    	margin-top: 20px;
+    	margin-left: 150px;
+	}
 	#table {
 		margin-left: 200px;
-    	width: 1000px;
+    	width: 800px;
     	height: 700px;
-    	background-color: #009933;
+    	background: radial-gradient(green 10%, black);
+	}
+	#bankSide {
+		padding-top: 75px;
+    	padding-bottom: 75px;
 	}
 	#bank {
-		width: 700px;
-    	height: 200px;
-    	margin-left: 150px;
-    	padding-top: 60px;
+		padding-top: 0px;
+    	width: 300px;
+    	height: 108px;
+    	margin-left: 350px;
 	}
 	#hero {
-    	padding-top: 60px;
-		width: 700px;
-    	height: 200px;
-    	margin-left: 150px;
-    	margin-top: 100px;
+    	padding-top: 20px;
+    	width: 300px;
+    	height: 108px;
+    	margin-left: 350px;
 	}
+
+	#controls {
+	    margin-left: 320px;
+    	padding-top: 50px;
+	}
+
 	.card {
-		margin-right: -30px;
+		margin-right: -50px;
 		height: 105px;
 		width: 75px;
 		border: 1px solid black;
@@ -49,6 +69,17 @@
 	}
 
 	.suit img {
-		width: 40px;
+		width: 45px;
 		height: auto;
+		margin-left: 10px;
+    	margin-top: 5px;
+	}
+
+	.suitSmall {
+		position: absolute;
+		margin-left: 2px;
+	}
+
+	.suitSmall img {
+		width: 21px;
 	}

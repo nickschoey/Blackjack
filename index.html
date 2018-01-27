@@ -9,67 +9,103 @@
 <body>
 
 <div id="table">
-	<div id="HUD">
-		<p id="bankroll">Bankroll: 5000</p>
-		<p id="Bet">Bet: 0</p>
-		<p id="bankCount">Bank Count: </p>
+	<div id="bankSide">
+		<div id="HUD">
+			<p id="bankCount">Bank Count: </p>
+		</div>
+		<div id="bank"></div>
 	</div>
-	<div id="bank"></div>
-	<div id="hero">
-		
-	<p id="count"></p>
+	<div id="playerSide">
+		<div id="gameStatus">
+			<p id="playerStatus">Game Status</p>	
+			<p id="count">Your Count: 0</p>
+			<p id="bet">Bet: 0</p>
+			<p id="bankroll">Bankroll: 5000</p>
+		</div>
+		<div id="hero"></div>
+		<div id="controls">
+			<div id="buttonsPreGame" hidden>
+			<input type="number" class="betForm" id="betAmount" step="20" min="20" max="500" value="20">
+			<button type="button" class="betForm" id="betSubmit">Place Bet</button>
+			<div id="buttonsPreGame" hidden>
+		<input type="number" class="betForm" id="betAmount" step="20" min="20" max="500" value="20">
+		<button type="button" class="betForm" id="betSubmit">Place Bet</button>
 	</div>
-</div><br>
-
-
-<div id="buttonsPreGame">
-	<input type="number" class="betForm" id="betAmount" step="20" min="20" max="500" value="20">
-	<button type="button" class="betForm" id="betSubmit">Place Bet</button>
 </div>
-<div id="buttonsPostGame">
+
+<div id="buttonsGame" hidden>
 	<button type="button" id="getCard" class="option" disabled>Get Card</button>
 	<button type="button" id="stand" class="option" disabled>Stand</button>
-	<button type="button" id="split" disabled>Split</button>
-	<button type="button" id="double" disabled>Double</button>
-	<button type="button" id="buyInsurance" disabled>Buy Insurance</button>
+	<button type="button" class="turnOptions" id="split" hidden>Split</button>
+	<button type="button" class="turnOptions" id="double" hidden>Double</button>
+	<button type="button" class="turnOptions" id="buyInsurance" hidden>Buy Insurance</button>
 </div>
-<div id="buttonsPostGame">
-	<button type="button" id="newGame" disabled>New Game</button>
-	<button type="button" id="Quit">Quit</button>
+
+<div id="buttonsPostGame" hidden>
+	<button type="button" id="newGame">New Game</button>
+	<button type="button" id="quit">Quit</button>
 </div>
+	</div>
+</div>
+
+</div><br>
+
+<div id="startGameOptions">
+	<select id="numberOfDecks">
+		<option value="" disabled selected hidden>Select number of decks</option>
+		<option value="1">1 deck</option>
+		<option value="2">2 decks</option>
+		<option value="3">3 decks</option>
+		<option value="4">4 decks</option>
+		<option value="5">5 decks</option>
+		<option value="6">6 decks</option>
+	</select>
+	<button type="button" id="startGame" disabled>Start Game</button>
+</div>
+
+
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="scripts.js" type="text/javascript"></script>
 <script type="text/javascript">
 
 //PREGAME
+	$("#numberOfDecks").change(function() {
+		$("#startGame").removeAttr("disabled");
+	})
 
-	//SELECT NUMBER OF DECKS TO PLAY
-
-	//CREATE THE DECK AND SHUFFLE IT
-	createDeck(1);
-	shuffle(deck.length);
+	$("#startGame").click(function() {
+		$("#startGameOptions").hide();
+		createDeck($("#numberOfDecks").val());
+		shuffle(deck.length);
+		$("#buttonsPreGame").show();
+		
+	})
 
 //GAME
 
-	//PLACE A BET AND DEAL THE FIRST FOUR CARDS. CHECK FOR A BLACKJACK
+	//PLACE A BET AND DEAL THE FIRST FOUR CARDS. CHECK FOR BLACKJACKS
 	$("#betSubmit").click(function() {
 		updateBet($("#betAmount").val());
 		$(".betForm").hide();
+		$("#buttonsGame").show();
+		
 		setTimeout(function(){
 			dealCard("hero");
 		}, 200);
+		
 		setTimeout(function(){
 			dealCard("hero");
 		}, 400);
+		
 		setTimeout(function(){
 			dealCard("bank");
 		}, 600);
+		
 		setTimeout(function(){
 		dealMuckedCard("bank");
 		}, 1000);
 
-		//THE GAME CAN END HERE
 		setTimeout(function(){
 		checkBlackJack();
 		}, 1300);
@@ -77,24 +113,21 @@
 
 	// CARD, DOUBLE, INSURANCE?
 	$("#getCard").click(function(){
+		$(".turnOptions").hide();
 		dealCard("hero");
-		checkCount();
 	})
 
 	$("#stand").click(function(){
+		$(".turnOptions").hide();
 		dealerPlay();
-		//function to end the hand of the dealer
-		// Showdown
-		// if >17 Stand
-			//Pay or cash
-		// if <17 Play
-			//if busted end game and Pay
-		// Check results
 	})
-//POSTGAME
-	//RESTART
-	//FINISH
 
+	$("#newGame").click(function(){
+		restartGame();
+	})
+	$("#quit").click(function(){
+		$(location).attr('href', 'http://codeworks.me')
+	})
 
 
 </script>
