@@ -62,6 +62,8 @@
 	</select>
 	<button type="button" id="startGame" disabled>Start Game</button>
 </div>
+</body>
+</html>
 
 
 
@@ -122,6 +124,18 @@
 		dealerPlay();
 	})
 
+	$("#split").click(funtion() {
+		split();
+	})
+
+	$("#double").click(function(){
+		double();
+	})
+	
+	$("#buyInsurance").click(function(){
+		buyInsurance();
+	})
+
 	$("#newGame").click(function(){
 		restartGame();
 	})
@@ -131,5 +145,3 @@
 
 
 </script>
-</body>
-</html>
