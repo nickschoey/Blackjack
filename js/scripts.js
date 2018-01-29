@@ -1,3 +1,4 @@
+var decks = 0;
 var newCard;
 var muckedCard;
 var deck = new Array();
@@ -7,10 +8,11 @@ var heroStats = {HasAce: false, BankRoll: 5000, Hand: [],
 				 SideHand: [], Bet: 0, SideBet: 0,
 				 Count: 0, SideCount: 0, Insurance: 0};
 var bankStats = {HasAce: false, Hand: [], Count: 0};
-var deckLength = 0;
 
 // Creates the deck for the game and sets a value for each card
+
 function createDeck(numberOfDecks) {
+	deck = [];
 	for (var x = 0; x < numberOfDecks; x++) {
 		for (var i = 0; i < suit.length; i++) {
 			for (var j = 0; j < value.length; j++) {
@@ -26,9 +28,10 @@ function createDeck(numberOfDecks) {
 			}
 		}
 	}
-	deckLength = deck.length;
+	
 	return deck;
 };
+
 // Shuffles two random Cards 10000 Times.
 function shuffle(gameDeckLength) {
 	for (var i = 0; i < 10000; i++) {
@@ -81,6 +84,7 @@ function addCard(idPlayer){
 function addMuckedCard(){
 	$("#bank").append("<div class=' mucked card'></div>");
 }
+
 
 //Counts the hand of idPlayer and handles the aces.
 //Ends the game if the player busts
@@ -197,6 +201,8 @@ function restartGame(){
 	$("#playerStatus1").html("");
 	$("#playerStatus2").html("");
 	$("#splitBet").html("");
+	createDeck(decks);
+	shuffle(deck.length);
 }
 
 //Handles the checks to be done after the first four cards are dealt
@@ -263,12 +269,12 @@ function buyInsurance(){
 	if (bankStats.Count == 21) {
 		uncoverCard();
 		heroStats.BankRoll += heroStats.Insurance;
-		$("#bankCount").html("BLACKJACK!")
-		$("#playerStatus").html("INSURANCE "+heroStats.Insurance+"&euro;");
+		$("#bankCount").html("BJ!")
+		$("#playerStatus").html(heroStats.Insurance+"&euro;");
 		postGameMenu();
 
 	} else {
-		$("#playerStatus").html("No Blackjack!");
+		$("#playerStatus").html("NO BJ! "+heroStats.Count);
 		$(".turnOptions").hide();
 	}
 }

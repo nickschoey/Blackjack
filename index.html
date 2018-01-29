@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="utf-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Jordi's BlackJack</title>
 <link rel="stylesheet" type="text/css" href="css/style.css">
 <style type="text/css" media="screen">
@@ -8,7 +10,7 @@
 </head>
 <body>
 
-<div id="table">
+<div id="blackjackTable">
 	<div id="bankSide">
 		<div id="HUD">
 			<p id="bankCount" class="info"></p>
@@ -19,25 +21,24 @@
 		<div id="tableText">
 			<p id="blackjack">Blackjack</p>
 			<p id="pay">PAYS 3 TO 2</p>
-			<p id="countInfo">Dealer must draw to 16 and stand on all 17s</p>
-			<p id="insuranceInfo">PAYS 2 TO 1    INSURANCE    PAYS 2 TO 1</p>
+			<p id="countInfo" hidden>Dealer must draw to 16 and stand on all 17s</p>
+			<p id="insuranceInfo" hidden>PAYS 2 TO 1    INSURANCE    PAYS 2 TO 1</p>
 		</div>
 	
 	</div>
 	<div id="playerSide">
-		<div id="gameStatus">
 			<p id="playerStatus1" class="info"></p>
 			<p id="playerStatus" class="info">BET</p>
 			<p id="playerStatus2" class="info"></p>	
 			<p id="bet">Bet: 0&euro;</p>
 			<p id="splitBet"></p>
-			<p id="bankroll">Bankroll: 5000&euro;</p>
-		</div>
+		
 		<div id="hero">
 			<div id="firstSplit"></div>
 			<div class="cardSilo"></div>
 			<div id="secondSplit"></div>
 		</div>
+			<p id="bankroll">Bankroll: 5000&euro;</p>
 
 		<div id="controls">
 			<div id="buttonsPreGame" hidden>
@@ -46,42 +47,40 @@
 			</div>			
 		</div>
 
-<div id="buttonsGame" hidden>
-	<button type="button" id="getCard" class="option" disabled>Hit</button>
-	<button type="button" id="stand" class="option" disabled>Stand</button>
-	<button type="button" class="turnOptions" id="split" hidden>Split</button>
-	<button type="button" class="turnOptions" id="double" hidden>Double</button>
-	<button type="button" class="turnOptions" id="buyInsurance" hidden>Buy Insurance</button>
-</div>
-<div id="splitBetOptions1" hidden>
-		<button type="button" id="getCardSide1">Hit</button>
-		<button type="button" id="standSide1">Stand</button>
-</div>
-<div id="splitBetOptions2" hidden>
-		<button type="button" id="getCardSide2">Hit</button>
-		<button type="button" id="standSide2">Stand</button>
-</div>
-<div id="buttonsPostGame" hidden>
-	<button type="button" id="newGame">New Game</button>
-	<button type="button" id="quit">Quit</button>
-</div>
+		<div id="buttonsGame" hidden>
+			<button type="button" id="getCard" class="option" disabled>Hit</button>
+			<button type="button" id="stand" class="option" disabled>Stand</button>
+			<button type="button" class="turnOptions" id="split" hidden>Split</button>
+			<button type="button" class="turnOptions" id="double" hidden>Double</button>
+			<button type="button" class="turnOptions" id="buyInsurance" hidden>Buy Insurance</button>
+		</div>
+		<div id="splitBetOptions1" hidden>
+				<button type="button" id="getCardSide1">Hit</button>
+				<button type="button" id="standSide1">Stand</button>
+		</div>
+		<div id="splitBetOptions2" hidden>
+				<button type="button" id="getCardSide2">Hit</button>
+				<button type="button" id="standSide2">Stand</button>
+		</div>
+		<div id="buttonsPostGame" hidden>
+			<button type="button" id="newGame">New Game</button>
+			<button type="button" id="quit">Quit</button>
+		</div>
+	</div>
+	<div id="startGameOptions">
+		<select id="numberOfDecks">
+			<option value="" disabled selected hidden>Select number of decks</option>
+			<option value="1">1 deck</option>
+			<option value="2">2 decks</option>
+			<option value="3">3 decks</option>
+			<option value="4">4 decks</option>
+			<option value="5">5 decks</option>
+			<option value="6">6 decks</option>
+		</select>
+		<button type="button" id="startGame" disabled>Start Game</button>
 	</div>
 </div>
 
-</div><br>
-
-<div id="startGameOptions">
-	<select id="numberOfDecks">
-		<option value="" disabled selected hidden>Select number of decks</option>
-		<option value="1">1 deck</option>
-		<option value="2">2 decks</option>
-		<option value="3">3 decks</option>
-		<option value="4">4 decks</option>
-		<option value="5">5 decks</option>
-		<option value="6">6 decks</option>
-	</select>
-	<button type="button" id="startGame" disabled>Start Game</button>
-</div>
 
 
 
@@ -91,16 +90,22 @@
 <script src="js/jquery.arctext.js" type="text/javascript"></script>
 <script type="text/javascript">
 
-//PREGAME
+
+	$("#countInfo").show();
 	$("#countInfo").arctext({radius: 250, dir: -1});
+	$("#insuranceInfo").show();
 	$("#insuranceInfo").arctext({radius: 280, dir: -1});
+	
+
+//PREGAME
 	$("#numberOfDecks").change(function() {
+		decks = $("#numberOfDecks").val();
 		$("#startGame").removeAttr("disabled");
 	})
 
 	$("#startGame").click(function() {
 		$("#startGameOptions").hide();
-		createDeck($("#numberOfDecks").val());
+		createDeck(decks);
 		shuffle(deck.length);
 		$("#buttonsPreGame").show();
 		

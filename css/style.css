@@ -8,6 +8,7 @@ p {
 }
 
 .info {
+	position: absolute;
 	height: 18px;
 	font-weight: bold;
 	text-align: center;
@@ -15,6 +16,17 @@ p {
 	border: 2px solid black;
 }
 
+
+#deckStack{
+	position: absolute;
+	height: 105px;
+    width: 120px;
+    border: 1px solid black;
+}
+
+#deckStack .card {
+	margin-right: -76.8px;
+}
 #firstSplit {
 	position: absolute;
 	z-index: 1;
@@ -46,17 +58,23 @@ p {
     margin-top: 82px;
     color: yellow;
 }
-
+#bankroll {
+	position: absolute;
+}
 #gameStatus {
 	position: absolute;
+}
+#startGameOptions {
+	text-align: center;
 }
 
 #blackjack {
 	margin-top: 0;
     margin-bottom: 0;
-    margin-left: 290px;
+    text-align: center;
     color: yellow;
     font-size: 50px;
+    letter-spacing: 10px;
 }
 
 #pay {
@@ -64,25 +82,36 @@ p {
 	margin-bottom: 0;
 	font-size: 30px;
 	font-weight: bold;
-	margin-left: 304px;
+	text-align: center;
+	letter-spacing: 5px;
 }
 
 #playerStatus {
-	margin-left: 337px;
-	margin-top: -23px;
+	position: absolute;
+    margin-left: 337px;
+    margin-top: 20px;
 }
 
 #playerStatus1 {
     position: absolute;
-    margin-left: 192px;
-    margin-top: -23px;
+    margin-left: 191px;
+    margin-top: 20px;
 }
 
 #playerStatus2 {
-	top: 0;
     position: absolute;
-    margin-left: 484px;
-    margin-top: -23px;
+    margin-left: 483px;
+    margin-top: 20px;
+}
+#bet {
+	position: absolute;
+	margin-top: 64px;
+    margin-left: 364px;
+}
+#splitBet {
+	position: absolute;
+	margin-top: 44px;
+    margin-left: 349px;
 }
 
 #splitBetOptions1 {
@@ -101,7 +130,8 @@ p {
 	margin-left: 337px;
 }
 
-#table {
+#blackjackTable {
+	margin-top: 60px;
 	margin-left: 200px;
 	width: 800px;
 	height: 700px;
@@ -119,13 +149,16 @@ p {
 	height: 108px;
 	margin-left: 350px;
 }
+#playerSide {
+	padding-top: 30px;
+}
 
 #hero {
-	padding-top: 20px;
+	padding-top: 90px;
 	width: 300px;
 	height: 108px;
 	margin-left: 350px;
-	margin-top: 75px;
+
 }
 
 #controls {
