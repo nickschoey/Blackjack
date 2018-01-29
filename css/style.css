@@ -1,0 +1,189 @@
+
+body {
+	background-color: black;
+}
+
+p {
+	color: white;
+}
+
+#firstSplit {
+	position: absolute;
+	z-index: 1;
+	height: 106px;
+	width: 225px;
+	margin-left: -145px;
+}
+
+#secondSplit {
+	position: absolute;
+	height: 106px;
+	width: 225px;
+	margin-left: 145px;
+}
+
+#countInfo {
+	font-size: 22px;
+	font-weight: bold;
+	position: absolute;
+    margin-left: 184px;
+    margin-top: 47px;
+}
+
+#insuranceInfo {
+	font-size: 22px;
+    font-weight: bold;
+    position: absolute;
+    margin-left: 175px;
+    margin-top: 82px;
+    color: yellow;
+}
+
+#gameStatus {
+	position: absolute;
+}
+
+#blackjack {
+	margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 290px;
+    color: yellow;
+    font-size: 50px;
+}
+
+#pay {
+	margin-top: 0;
+	margin-bottom: 0;
+	font-size: 30px;
+	font-weight: bold;
+	margin-left: 304px;
+}
+
+#playerStatus {
+	margin-left: 346px;
+	margin-top: -23px;
+}
+
+#playerStatus1 {
+	width: 160px;
+    position: absolute;
+    margin-left: 227px;
+    margin-top: -23px;
+}
+
+#playerStatus2 {
+	top: 0;
+	width: 160px;
+    position: absolute;
+    margin-left: 528px;
+    margin-top: -23px;
+}
+
+#splitBetOptions1 {
+	position: absolute;
+    margin-left: 175px;
+}
+
+#splitBetOptions2 {
+	position: absolute;
+    margin-left: -125px;
+}
+
+#HUD {
+	position: absolute;
+	margin-top: -60px;
+	margin-left: 350px;
+}
+
+#table {
+	margin-left: 200px;
+	width: 800px;
+	height: 700px;
+	background: radial-gradient(green 10%, black);
+}
+
+#bankSide {
+	padding-top: 75px;
+	padding-bottom: 75px;
+}
+
+#bank {
+	padding-top: 0px;
+	width: 300px;
+	height: 108px;
+	margin-left: 350px;
+}
+
+#hero {
+	padding-top: 20px;
+	width: 300px;
+	height: 108px;
+	margin-left: 350px;
+	margin-top: 75px;
+}
+
+#controls {
+    margin-left: 320px;
+	padding-top: 50px;
+}
+
+.red {
+	color: red;
+}
+
+.mucked {
+	background-image: url("back.png");
+	background-size: 69px;
+	background-repeat: no-repeat;
+	background-position: center 4px;
+}
+
+.cardSilo {
+	position: absolute;
+    height: 106px;
+    width: 77px;
+    margin-left: -4px;
+    margin-top: -2px;
+    border: 3px solid yellow;
+    z-index: 0;
+}
+
+.card {
+	position: relative;
+	margin-right: -50px;
+	height: 105px;
+	width: 75px;
+	border: 1px solid black;
+	border-radius: 10%;
+	float: left;
+	background-color: white;
+}
+
+.value {
+	margin-top: 2px;
+	margin-left: 4px;
+	font-size: 25px;
+	font-weight: bold;
+	
+}
+
+.suit {
+	margin-left: 16px;
+	margin-top: 7px;
+}
+
+.suit img {
+	width: 45px;
+	height: auto;
+	margin-left: 10px;
+	margin-top: 5px;
+}
+
+.suitSmall {
+	position: absolute;
+	margin-left: 2px;
+}
+
+.suitSmall img {
+	width: 21px;
+}

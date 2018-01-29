@@ -3,7 +3,9 @@ var muckedCard;
 var deck = new Array();
 var suit = ["diamonds", "spades", "hearts", "clubs"];
 var value = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
-var heroStats = {HasAce: false, BankRoll: 5000, Hand: [], Bet: 0, Count: 0, Insurance: 0};
+var heroStats = {HasAce: false, BankRoll: 5000, Hand: [], 
+				 SideHand: [], Bet: 0, SideBet: 0,
+				 Count: 0, SideCount: 0, Insurance: 0};
 var bankStats = {HasAce: false, Hand: [], Count: 0};
 var deckLength = 0;
 
@@ -61,15 +63,15 @@ function addCard(idPlayer){
 		if (newCard.Suit == "diamonds" || newCard.Suit == "hearts") {
 			$(code).append("<div class='card red'><div class='value'>"
 							+newCard.Value+
-							"</div><div class='suitSmall'><img src="+newCard.Suit+
-							".png></div>"+"<div class='suit'><img src="+
+							"</div><div class='suitSmall'><img src=img/"+newCard.Suit+
+							".png></div>"+"<div class='suit'><img src=img/"+
 							newCard.Suit+
 							".png></div></div>");	
 		} else {
 			$(code).append("<div class='card'><div class='value'>"
 								+newCard.Value+
-								"</div><div class='suitSmall'><img src="+newCard.Suit+
-								".png></div>"+"<div class='suit'><img src="+
+								"</div><div class='suitSmall'><img src=img/"+newCard.Suit+
+								".png></div>"+"<div class='suit'><img src=img/"+
 								newCard.Suit+
 								".png></div></div>");
 		}
@@ -99,10 +101,10 @@ function updateCount(idPlayer){
 			heroStats.Count += 10;
 		}
 
-	$("#count").html("Your Count: "+heroStats.Count);
+	$("#playerStatus").html(heroStats.Count);
 	
 	if (heroStats.Count > 21) {
-		$("#playerStatus").html("Busted! You lose "+heroStats.Bet);
+		$("#playerStatus").html(heroStats.Count + " BUST");
 		postGameMenu();
 	};
 
@@ -122,7 +124,8 @@ function updateCount(idPlayer){
 		
 	}
 }
-//Cheks if there's enough money to place a bet.
+
+//Checks if there's enough money to place a bet.
 //Updates bet amount and bankroll.
 function updateBet(betAmount){
 	heroStats.Bet = parseInt(betAmount);
@@ -156,40 +159,43 @@ function uncoverCard(){
 		$("#bank").find(".mucked").addClass("red");
 		$("#bank").find(".mucked").html("<div class='value'>"
 							+muckedCard.Value+
-							"</div><div class='suitSmall'><img src="+newCard.Suit+
-							".png></div>"+"<div class='suit'><img src="+
+							"</div><div class='suitSmall'><img src=img/"+muckedCard.Suit+
+							".png></div>"+"<div class='suit'><img src=img/"+
 							muckedCard.Suit+
 							".png></div></div>");
 	} else {
 		$("#bank").find(".mucked").html("<div class='value'>"
 							+muckedCard.Value+
-							"</div><div class='suitSmall'><img src="+muckedCard.Suit+
-							".png></div>"+"<div class='suit'><img src="+
+							"</div><div class='suitSmall'><img src=img/"+muckedCard.Suit+
+							".png></div>"+"<div class='suit'><img src=img/"+
 							muckedCard.Suit+
 							".png></div></div>");
 	}
 	$("#bank").find(".mucked").removeClass("mucked");
-	$("#bankCount").html("Bank Count: "+ bankStats.Count);
+	$("#bankCount").html(bankStats.Count);
 }
 
 //Resets all the counters and empties the table
 //Allows for a new game to be played
 function restartGame(){
 	$("#bankroll").html("Bankroll: "+heroStats.BankRoll);
-	$("#bank").empty();
-	$("#hero").empty();
-	$("#count").html("Count: 0")
-	$("#bankCount").html("Count: 0");
+	$("#bank").find(".card").remove();
+	$("#hero").find(".card").remove();
+	$("#bankCount").html("");
 	heroStats.Bet = 0;
+	heroStats.SideBet = 0;
 	heroStats.Insurance = 0;
+	heroStats.SideCount = 0;
 	bankStats.Hand = [];
 	heroStats.Hand = [];
+	heroStats.SideHand = [];
 	$("#bet").html("Bet: 0");
-	$("#playerStatus").html("Game Status");
-	$("#bankCount").html("Bank Count:");
+	$("#playerStatus").html("BET");
 	$(".betForm").show();
 	$("#buttonsPostGame").hide();
 	$(".turnOptions").hide();
+	$("#playerStatus1").html("");
+	$("#playerStatus2").html("");
 }
 
 //Handles the checks to be done after the first four cards are dealt
@@ -228,16 +234,19 @@ function midGame(){
 		|| heroStats.Count == 10 
 		|| heroStats.Count == 11) {
 		$("#double").show();
-
-	} else if (heroStats.Hand[0] == heroStats.Hand[1]) {
+	}
+	if (heroStats.Hand[0] == heroStats.Hand[1]) {
 		$("#split").show();
+	}
 
-	} else if (bankStats.Hand[0] == 1) {
+	if (bankStats.Hand[0] == 1) {
 		$("#buyInsurance").show();
 	}
 }
 //Handles doubling the bet
 function double(){
+	heroStats.BankRoll = heroStats.BankRoll - heroStats.Bet;
+	$("#bankroll").html("Bankroll: "+heroStats.BankRoll);
 	heroStats.Bet = heroStats.Bet*2;
 	$("#bet").html("Bet: "+heroStats.Bet);
 	dealCard("hero");
@@ -245,7 +254,20 @@ function double(){
 }
 //handles buying an insurance
 function buyInsurance(){
+	heroStats.Insurance = heroStats.Bet/2;
+	heroStats.BankRoll -= heroStats.Insurance;
+	$("#bankroll").html("Bankroll: "+heroStats.BankRoll);
 
+	if (bankStats.Count == 21) {
+		uncoverCard();
+		heroStats.BankRoll += heroStats.Insurance;
+		$("#playerStatus").html("Bank Has Blackjack! You collect your insurance of "+heroStats.Insurance);
+		postGameMenu();
+
+	} else {
+		$("#playerStatus").html("No Blackjack! Lose insurance");
+		$(".turnOptions").hide();
+	}
 }
 
 //Plays the turn for the bank and deals the different outcomes
@@ -254,13 +276,13 @@ function dealerPlay(){
 		setTimeout(function(){
 			//DEALER HAS A BLACKJACK
 			if (bankStats.Count == 21) {
-				$("#playerStatus").html("Bank Has Blackjack! You lose "+heroStats.Bet);
+				$("#playerStatus").html("Bank Has Blackjack! You lose "+(heroStats.Bet+heroStats.SideBet));
 				postGameMenu();	
 			}
 			//DEALER HAS TO TAKE MORE CARDS
 			while (bankStats.Count <= 16) {
 					dealCard("bank");
-					$("#bankCount").html("Bank Count: "+ bankStats.Count);
+					$("#bankCount").html(bankStats.Count);
 			}
 			//AFTERGAME
 			setTimeout(function(){
