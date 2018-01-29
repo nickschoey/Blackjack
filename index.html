@@ -11,7 +11,7 @@
 <div id="table">
 	<div id="bankSide">
 		<div id="HUD">
-			<p id="bankCount"></p>
+			<p id="bankCount" class="info"></p>
 		</div>
 		<div id="bank">
 			<div class="cardSilo"></div>
@@ -26,27 +26,25 @@
 	</div>
 	<div id="playerSide">
 		<div id="gameStatus">
-			<p id="playerStatus1"></p>
-			<p id="playerStatus">BET</p>
-			<p id="playerStatus2"></p>	
-			<p id="bet">Bet: 0</p>
+			<p id="playerStatus1" class="info"></p>
+			<p id="playerStatus" class="info">BET</p>
+			<p id="playerStatus2" class="info"></p>	
+			<p id="bet">Bet: 0&euro;</p>
 			<p id="splitBet"></p>
-			<p id="bankroll">Bankroll: 5000</p>
+			<p id="bankroll">Bankroll: 5000&euro;</p>
 		</div>
 		<div id="hero">
 			<div id="firstSplit"></div>
 			<div class="cardSilo"></div>
 			<div id="secondSplit"></div>
 		</div>
+
 		<div id="controls">
 			<div id="buttonsPreGame" hidden>
-			<input type="number" class="betForm" id="betAmount" step="20" min="20" max="500" value="20">
-			<button type="button" class="betForm" id="betSubmit">Place Bet</button>
-			<div id="buttonsPreGame" hidden>
-		<input type="number" class="betForm" id="betAmount" step="20" min="20" max="500" value="20">
-		<button type="button" class="betForm" id="betSubmit">Place Bet</button>
-	</div>
-</div>
+				<input type="number" class="betForm" id="betAmount" step="20" min="20" max="500" value="20">
+				<button type="button" class="betForm" id="betSubmit">Place Bet</button>
+			</div>			
+		</div>
 
 <div id="buttonsGame" hidden>
 	<button type="button" id="getCard" class="option" disabled>Hit</button>

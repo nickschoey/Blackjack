@@ -21,8 +21,8 @@ function split(){
 	$(".turnOptions").hide();
 	heroStats.BankRoll -= heroStats.Bet;
 	heroStats.SideBet = heroStats.Bet;
-	$("#bankroll").html("Bankroll: "+heroStats.BankRoll);
-	$("#splitBet").html("Split Bet: "+heroStats.SideBet);
+	$("#bankroll").html("Bankroll: "+heroStats.BankRoll+"&euro;");
+	$("#splitBet").html("Split Bet: "+heroStats.SideBet+"&euro;");
 	heroStats.SideHand.push(heroStats.Hand.pop());
 	$("#hero .card").last().appendTo($("#secondSplit"));
 	$("#playerStatus").html("");
@@ -41,7 +41,7 @@ $("#getCardSide1").click(function(){
 	heroStats.SideCount = countSplit(heroStats.SideHand);
 	$("#playerStatus2").html(heroStats.SideCount);
 	if (heroStats.SideCount > 21) {
-		$("#playerStatus2").html(heroStats.SideCount + " BUSTED!");
+		$("#playerStatus2").html("BUST!");
 		$("#splitBetOptions1").hide();
 		$("#splitBetOptions2").show();
 	}
@@ -59,7 +59,7 @@ $("#getCardSide2").click(function(){
 	heroStats.Count = countSplit(heroStats.Hand);
 	$("#playerStatus1").html(heroStats.Count);
 	if (heroStats.Count > 21) {
-		$("#playerStatus1").html(heroStats.Count + " BUSTED!");
+		$("#playerStatus1").html("BUST");
 		$("#splitBetOptions2").hide();
 		if(heroStats.SideCount > 21){
 			postGameMenu();
@@ -80,13 +80,13 @@ function endGameSplit(bankCount, count1, count2){
 		$("#bankCount").html("BUSTED");
 		if (count1 <= 21) {
 			heroStats.BankRoll += heroStats.Bet*2;
-			$("#playerStatus1").html("WIN. Collect "+heroStats.Bet*2);
+			$("#playerStatus1").html("WIN. "+heroStats.Bet*2+"&euro;");
 			postGameMenu();	
 			
 		}
 		if (count2 <= 21) {
 			heroStats.BankRoll += heroStats.SideBet*2;
-			$("#playerStatus2").html("WIN. Collect "+heroStats.SideBet*2)
+			$("#playerStatus2").html("WIN. "+heroStats.SideBet*2+"&euro;")
 			postGameMenu();	
 			
 		}
@@ -99,14 +99,14 @@ function endGameSplit(bankCount, count1, count2){
 
 		if (count1 == bankCount && count1 < 22) {
 			heroStats.BankRoll += heroStats.SideBet;
-			$("#playerStatus1").html("TIE. Collect "+heroStats.SideBet);
+			$("#playerStatus1").html("TIE. "+heroStats.SideBet+"&euro;");
 			postGameMenu();	
 
 		}
 
 		if (count1 > bankCount && count1 < 22) {
 			heroStats.BankRoll += heroStats.SideBet*2;
-			$("#playerStatus1").html("WIN. Collect "+heroStats.SideBet*2);
+			$("#playerStatus1").html("WIN. "+heroStats.SideBet*2+"&euro;");
 			postGameMenu();	
 		}
 		
@@ -117,13 +117,13 @@ function endGameSplit(bankCount, count1, count2){
 
 		if (count2 == bankCount && count2 < 22) {
 			heroStats.BankRoll += heroStats.SideBet;
-			$("#playerStatus2").html("TIE. Collect "+heroStats.SideBet);
+			$("#playerStatus2").html("TIE. "+heroStats.SideBet+"&euro;");
 			postGameMenu();	
 		}
 
 		if (count2 > bankCount && count2 < 22) {
 			heroStats.BankRoll += heroStats.SideBet*2;
-			$("#playerStatus2").html("WIN. Collect "+heroStats.SideBet*2);
+			$("#playerStatus2").html("WIN. "+heroStats.SideBet*2+"&euro;");
 			postGameMenu();	
 		}
 
@@ -135,7 +135,8 @@ function dealerPlaySplit(){
 	uncoverCard();
 	//DEALER HAS A BLACKJACK
 	if (bankStats.Count == 21) {
-		$("#playerStatus").html("Bank Has Blackjack! You lose "+heroStats.Bet);
+		$("#bankCount").html("BLACKJACK!");
+		$("#playerStatus").html("LOSE");
 		postGameMenu();	
 	}
 	//DEALER HAS TO TAKE MORE CARDS

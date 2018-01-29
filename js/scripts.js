@@ -104,7 +104,7 @@ function updateCount(idPlayer){
 	$("#playerStatus").html(heroStats.Count);
 	
 	if (heroStats.Count > 21) {
-		$("#playerStatus").html(heroStats.Count + " BUST");
+		$("#playerStatus").html("BUST");
 		postGameMenu();
 	};
 
@@ -134,8 +134,8 @@ function updateBet(betAmount){
 		postGameMenu();
 	} else {
 		heroStats.BankRoll = heroStats.BankRoll - heroStats.Bet;
-		$("#bankroll").html("Bankroll: "+heroStats.BankRoll);
-		$("#bet").html("Bet: "+ heroStats.Bet);
+		$("#bankroll").html("Bankroll: "+heroStats.BankRoll+"&euro;");
+		$("#bet").html("Bet: "+ heroStats.Bet+"&euro;");
 	}
 }
 
@@ -178,7 +178,7 @@ function uncoverCard(){
 //Resets all the counters and empties the table
 //Allows for a new game to be played
 function restartGame(){
-	$("#bankroll").html("Bankroll: "+heroStats.BankRoll);
+	$("#bankroll").html("Bankroll: "+heroStats.BankRoll+"&euro;");
 	$("#bank").find(".card").remove();
 	$("#hero").find(".card").remove();
 	$("#bankCount").html("");
@@ -189,13 +189,14 @@ function restartGame(){
 	bankStats.Hand = [];
 	heroStats.Hand = [];
 	heroStats.SideHand = [];
-	$("#bet").html("Bet: 0");
+	$("#bet").html("Bet: 0&euro;");
 	$("#playerStatus").html("BET");
 	$(".betForm").show();
 	$("#buttonsPostGame").hide();
 	$(".turnOptions").hide();
 	$("#playerStatus1").html("");
 	$("#playerStatus2").html("");
+	$("#splitBet").html("");
 }
 
 //Handles the checks to be done after the first four cards are dealt
@@ -205,20 +206,21 @@ function checkBlackJack(){
 		uncoverCard();
 		//THE BANK DOESN'T HAVE IT, GET PAID
 		if (bankStats.Count != 21) {
-			$("#playerStatus").html("BlackJack! You win "+
-									heroStats.Bet*1.5);
+			$("#playerStatus").html("BJ! "+
+									heroStats.Bet*1.5+ "&euro;");
 			heroStats.BankRoll += heroStats.Bet*1.5;
 			postGameMenu();
 		//THE BANK HAS IT, IT'S A TIE
 		} else if (bankStats.Count == 21) {
 			heroStats.BankRoll += heroStats.Bet;
-			$("#playerStatus").html("It's a tie! You get your "+heroStats.Bet+" back.");
+			$("#playerStatus").html("TIE "+heroStats.Bet+"&euro;");
 			postGameMenu();
 		}
 	//The bank has a ten. Checks for a bank's blackjack
 	} else if (bankStats.Count == 21 && bankStats.Hand[0] != 1) {
 		uncoverCard();
-		$("#playerStatus").html("the bank has a blackjack, you lose");
+		$("#bankCount").html("BJ!")
+		$("#playerStatus").html("LOSE");
 		postGameMenu();
 	//moves into the midgame's options
 	} else {
@@ -246,9 +248,9 @@ function midGame(){
 //Handles doubling the bet
 function double(){
 	heroStats.BankRoll = heroStats.BankRoll - heroStats.Bet;
-	$("#bankroll").html("Bankroll: "+heroStats.BankRoll);
+	$("#bankroll").html("Bankroll: "+heroStats.BankRoll+"&euro;");
 	heroStats.Bet = heroStats.Bet*2;
-	$("#bet").html("Bet: "+heroStats.Bet);
+	$("#bet").html("Bet: "+heroStats.Bet+"&euro;");
 	dealCard("hero");
 	dealerPlay();
 }
@@ -256,16 +258,17 @@ function double(){
 function buyInsurance(){
 	heroStats.Insurance = heroStats.Bet/2;
 	heroStats.BankRoll -= heroStats.Insurance;
-	$("#bankroll").html("Bankroll: "+heroStats.BankRoll);
+	$("#bankroll").html("Bankroll: "+heroStats.BankRoll+"&euro;");
 
 	if (bankStats.Count == 21) {
 		uncoverCard();
 		heroStats.BankRoll += heroStats.Insurance;
-		$("#playerStatus").html("Bank Has Blackjack! You collect your insurance of "+heroStats.Insurance);
+		$("#bankCount").html("BLACKJACK!")
+		$("#playerStatus").html("INSURANCE "+heroStats.Insurance+"&euro;");
 		postGameMenu();
 
 	} else {
-		$("#playerStatus").html("No Blackjack! Lose insurance");
+		$("#playerStatus").html("No Blackjack!");
 		$(".turnOptions").hide();
 	}
 }
@@ -276,7 +279,8 @@ function dealerPlay(){
 		setTimeout(function(){
 			//DEALER HAS A BLACKJACK
 			if (bankStats.Count == 21) {
-				$("#playerStatus").html("Bank Has Blackjack! You lose "+(heroStats.Bet+heroStats.SideBet));
+				$("#bankCount").html("BLACKJACK!")
+				$("#playerStatus").html("LOSE "+(heroStats.Bet+heroStats.SideBet)+"&euro;");
 				postGameMenu();	
 			}
 			//DEALER HAS TO TAKE MORE CARDS
@@ -287,19 +291,20 @@ function dealerPlay(){
 			//AFTERGAME
 			setTimeout(function(){
 				if (bankStats.Count > 21) {
-					$("#playerStatus").html("Bank busts. You Win "+ heroStats.Bet*2);
+					$("#bankCount").html("BUST");
+					$("#playerStatus").html("WIN "+ heroStats.Bet*2+"&euro;");
 					heroStats.BankRoll += heroStats.Bet*2;
 					postGameMenu();	
 				} else {
 					if (bankStats.Count > heroStats.Count) {
-						$("#playerStatus").html("Bank Wins. You lose "+heroStats.Bet);
+						$("#playerStatus").html("LOSE");
 						postGameMenu();	
 					} else if (bankStats.Count == heroStats.Count) {
-						$("#playerStatus").html("It's a tie! Get your "+heroStats.Bet+" back");
+						$("#playerStatus").html("TIE "+heroStats.Bet+"&euro;");
 						heroStats.BankRoll += heroStats.Bet;
 						postGameMenu();	
 					} else {
-						$("#playerStatus").html("You win. Collect "+heroStats.Bet*2);
+						$("#playerStatus").html("WIN "+heroStats.Bet*2+"&euro;");
 						heroStats.BankRoll += heroStats.Bet*2;
 						postGameMenu();	
 					}

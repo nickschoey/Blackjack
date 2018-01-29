@@ -7,6 +7,14 @@ p {
 	color: white;
 }
 
+.info {
+	height: 18px;
+	font-weight: bold;
+	text-align: center;
+	width: 100px;
+	border: 2px solid black;
+}
+
 #firstSplit {
 	position: absolute;
 	z-index: 1;
@@ -60,39 +68,37 @@ p {
 }
 
 #playerStatus {
-	margin-left: 346px;
+	margin-left: 337px;
 	margin-top: -23px;
 }
 
 #playerStatus1 {
-	width: 160px;
     position: absolute;
-    margin-left: 227px;
+    margin-left: 192px;
     margin-top: -23px;
 }
 
 #playerStatus2 {
 	top: 0;
-	width: 160px;
     position: absolute;
-    margin-left: 528px;
+    margin-left: 484px;
     margin-top: -23px;
 }
 
 #splitBetOptions1 {
 	position: absolute;
-    margin-left: 175px;
+    margin-left: 490px;
 }
 
 #splitBetOptions2 {
 	position: absolute;
-    margin-left: -125px;
+    margin-left: 200px;
 }
 
 #HUD {
 	position: absolute;
 	margin-top: -60px;
-	margin-left: 350px;
+	margin-left: 337px;
 }
 
 #table {
@@ -126,6 +132,24 @@ p {
     margin-left: 320px;
 	padding-top: 50px;
 }
+
+#buttonsGame {
+    text-align: center;
+    width: 300px;
+    margin-left: 237px;
+}
+
+#buttonsPostGame {
+    width: 110px;
+    text-align: center;
+    margin-left: 333px;
+}
+
+#quit {
+	margin-top: 10px;
+}
+
+
 
 .red {
 	color: red;
