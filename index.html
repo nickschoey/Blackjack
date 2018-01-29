@@ -12,6 +12,7 @@
 
 <div id="blackjackTable">
 	<div id="bankSide">
+		<div id="deckStack"></div>
 		<div id="HUD">
 			<p id="bankCount" class="info"></p>
 		</div>
@@ -106,6 +107,7 @@
 	$("#startGame").click(function() {
 		$("#startGameOptions").hide();
 		createDeck(decks);
+		createStack();
 		shuffle(deck.length);
 		$("#buttonsPreGame").show();
 		
