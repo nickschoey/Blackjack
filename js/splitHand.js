@@ -130,7 +130,6 @@ function endGameSplit(bankCount, count1, count2){
 	}
 }
 
-
 function dealerPlaySplit(){
 	uncoverCard();
 	//DEALER HAS A BLACKJACK
