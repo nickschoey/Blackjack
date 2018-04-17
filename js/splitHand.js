@@ -45,12 +45,12 @@ $("#getCardSide1").click(function(){
 		$("#splitBetOptions1").hide();
 		$("#splitBetOptions2").show();
 	}
-})
+});
 
 $("#standSide1").click(function(){
 	$("#splitBetOptions1").hide();
 	$("#splitBetOptions2").show();
-})
+});
 
 $("#getCardSide2").click(function(){
 	getCard();
@@ -68,12 +68,12 @@ $("#getCardSide2").click(function(){
 			endGameSplit(bankStats.Count, heroStats.Count, heroStats.SideCount);
 		}
 	}
-})
+});
 
 $("#standSide2").click(function(){
 	$("#splitBetOptions2").hide();
 	endGameSplit(dealerPlaySplit(), heroStats.Count, heroStats.SideCount);
-})
+});
 
 function endGameSplit(bankCount, count1, count2){
 	if (bankCount > 21) {
@@ -86,7 +86,7 @@ function endGameSplit(bankCount, count1, count2){
 		}
 		if (count2 <= 21) {
 			heroStats.BankRoll += heroStats.SideBet*2;
-			$("#playerStatus2").html("WIN. "+heroStats.SideBet*2+"&euro;")
+			$("#playerStatus2").html("WIN. "+heroStats.SideBet*2+"&euro;");
 			postGameMenu();	
 			
 		}
@@ -144,4 +144,4 @@ function dealerPlaySplit(){
 			$("#bankCount").html(bankStats.Count);
 	}
 	return(bankStats.Count);
-};
+}
